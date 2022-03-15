@@ -1,11 +1,7 @@
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 
 function MenuPage() {
-  return (
-    <View>
-      <Text>Menu</Text>
-    </View>
-  );
+  return <Text>Menu</Text>;
 }
 
 export default MenuPage;

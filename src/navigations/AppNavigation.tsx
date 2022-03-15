@@ -1,4 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ValueOf } from '../types/utils';
 import useColor from '../hooks/useColor';
@@ -22,39 +23,41 @@ function AppNavigation() {
   const colors = useColor();
 
   return (
-    <Tab.Navigator
-      initialRouteName="Home"
-      screenOptions={{
-        headerShown: false,
-        tabBarShowLabel: false,
-        tabBarActiveTintColor: colors.PRIMARY,
-        tabBarInactiveTintColor: colors.SECONDARY,
-        tabBarStyle: {
-          backgroundColor: colors.WHITE,
-          borderTopWidth: 0,
-          elevation: 0,
-        },
-        tabBarItemStyle: {
-          height: 70,
-        },
-      }}
-    >
-      <Tab.Screen
-        name="Home"
-        component={HomePage}
-        options={{ tabBarIcon: ({ color }) => <IcHome color={color} /> }}
-      />
-      <Tab.Screen
-        name="Calendar"
-        component={CalendarPage}
-        options={{ tabBarIcon: ({ color }) => <IcCalendar color={color} /> }}
-      />
-      <Tab.Screen
-        name="Menu"
-        component={MenuPage}
-        options={{ tabBarIcon: ({ color }) => <IcMenu color={color} /> }}
-      />
-    </Tab.Navigator>
+    <SafeAreaView>
+      <Tab.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarActiveTintColor: colors.PRIMARY,
+          tabBarInactiveTintColor: colors.SECONDARY,
+          tabBarStyle: {
+            backgroundColor: colors.WHITE,
+            borderTopWidth: 0,
+            elevation: 0,
+          },
+          tabBarItemStyle: {
+            height: 70,
+          },
+        }}
+      >
+        <Tab.Screen
+          name="Home"
+          component={HomePage}
+          options={{ tabBarIcon: ({ color }) => <IcHome color={color} /> }}
+        />
+        <Tab.Screen
+          name="Calendar"
+          component={CalendarPage}
+          options={{ tabBarIcon: ({ color }) => <IcCalendar color={color} /> }}
+        />
+        <Tab.Screen
+          name="Menu"
+          component={MenuPage}
+          options={{ tabBarIcon: ({ color }) => <IcMenu color={color} /> }}
+        />
+      </Tab.Navigator>
+    </SafeAreaView>
   );
 }
 

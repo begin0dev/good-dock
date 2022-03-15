@@ -2,8 +2,8 @@ import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
 
-import AppNavigation from './src/navigations/AppNavigation';
 import useMount from './src/hooks/useMount';
+import InitNavigation from './src/navigations/InitNavigation';
 
 const App = () => {
   useMount(() => {
@@ -13,7 +13,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <StatusBar />
-      <AppNavigation />
+      <InitNavigation />
     </NavigationContainer>
   );
 };
