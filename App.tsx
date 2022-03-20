@@ -1,19 +1,23 @@
-import { StatusBar } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import SplashScreen from 'react-native-splash-screen';
+import { RecoilRoot } from "recoil";
+import { StatusBar } from "react-native";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { NavigationContainer } from "@react-navigation/native";
 
-import useMount from './src/hooks/useMount';
-import InitNavigation from './src/navigations/InitNavigation';
+import InitNavigation from "./src/navigations/InitNavigation";
+
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { refetchOnMount: false } },
+});
 
 const App = () => {
-  useMount(() => {
-    SplashScreen.hide();
-  });
-
   return (
     <NavigationContainer>
       <StatusBar />
-      <InitNavigation />
+      <RecoilRoot>
+        <QueryClientProvider client={queryClient}>
+          <InitNavigation />
+        </QueryClientProvider>
+      </RecoilRoot>
     </NavigationContainer>
   );
 };
