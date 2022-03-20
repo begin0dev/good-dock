@@ -23,11 +23,8 @@ function InitNavigation() {
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {!isLoggedIn ? (
-        <Stack.Screen name="loginScreen" component={LoginPage} />
-      ) : (
-        <Stack.Screen name="AppScreen" component={AppNavigation} />
-      )}
+      {!isLoggedIn && <Stack.Screen name="loginScreen" component={LoginPage} />}
+      {isLoggedIn && <Stack.Screen name="AppScreen" component={AppNavigation} />}
     </Stack.Navigator>
   );
 }

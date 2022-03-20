@@ -30,10 +30,10 @@ function AppNavigation() {
         tabBarActiveTintColor: colors.PRIMARY,
         tabBarInactiveTintColor: colors.SECONDARY,
         tabBarStyle: {
-          backgroundColor: colors.WHITE,
+          minHeight: 54,
+          backgroundColor: colors.SECONDARY_BACKGROUND,
           borderTopWidth: 0,
           elevation: 0,
-          height: 54,
         },
       }}>
       <Tab.Screen
