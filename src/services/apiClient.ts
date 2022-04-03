@@ -8,7 +8,7 @@ let pendingRefreshToken: boolean = false;
 
 const apiClient = ky.create({
   prefixUrl: SERVER_URL,
-  timeout: 2 * 10 * 1000,
+  timeout: 10 * 1000,
   hooks: {
     beforeRequest: [
       async (req) => {
@@ -19,7 +19,7 @@ const apiClient = ky.create({
         }
         const refreshToken = await TokenManager.getRefreshToken();
         if (!refreshToken || pendingRefreshToken) return;
-        console.log("accessToken");
+
         try {
           pendingRefreshToken = true;
           const { data } = await getAccessTokenApi(refreshToken);

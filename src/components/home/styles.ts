@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { themeColors } from "../../styles/colors";
 
 export const styles = StyleSheet.create({
   cardHeaderWrapper: {
@@ -20,6 +21,7 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
     marginRight: 10,
     overflow: "hidden",
+    backgroundColor: themeColors.BACKGROUND,
   },
   cardSummary: {
     flexDirection: "row",

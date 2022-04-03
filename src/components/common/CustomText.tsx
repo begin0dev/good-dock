@@ -1,5 +1,6 @@
-import { Text, TextProps } from "react-native";
-import useColor from "../../hooks/useColor";
+import { StyleSheet, Text, TextProps } from "react-native";
+
+import { themeColors } from "../../styles/colors";
 
 const FONT_WEIGHTS = {
   normal: "400",
@@ -11,6 +12,7 @@ interface Props extends TextProps {
   color?: string;
   fontWeight?: "normal" | "semiBold" | "bold";
   fontSize?: number;
+  type?: "h1" | "subText";
 }
 
 function CustomText({
@@ -19,14 +21,14 @@ function CustomText({
   fontSize = 14,
   style,
   children,
+  type,
   ...textProps
 }: Props) {
-  const colors = useColor();
-
   return (
     <Text
       style={[
-        { color: color || colors.TEXT_0, fontSize, fontWeight: FONT_WEIGHTS[fontWeight] },
+        { color: color || themeColors.TEXT_0, fontSize, fontWeight: FONT_WEIGHTS[fontWeight] },
+        type ? styles[type] : null,
         style,
       ]}
       {...textProps}>
@@ -36,3 +38,15 @@ function CustomText({
 }
 
 export default CustomText;
+
+const styles = StyleSheet.create({
+  h1: {
+    fontSize: 18,
+    lineHeight: 28,
+  },
+  subText: {
+    fontSize: 12,
+    lineHeight: 16,
+    color: themeColors.TEXT_1,
+  },
+});

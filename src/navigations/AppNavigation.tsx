@@ -1,11 +1,11 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { ValueOf } from "../types/utils";
-import useColor from "../hooks/useColor";
 import { IcCalendar, IcHome, IcMenu } from "../assets/svgs";
 import HomePage from "../pages/HomePage";
 import CalendarPage from "../pages/CalendarPage";
 import MenuPage from "../pages/MenuPage";
+import { themeColors } from "../styles/colors";
 
 const AppNavigations = {
   HOME: "Home",
@@ -19,19 +19,17 @@ export type AppNavigation = Record<AppNavigationNames, undefined>;
 const Tab = createBottomTabNavigator<AppNavigation>();
 
 function AppNavigation() {
-  const colors = useColor();
-
   return (
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarActiveTintColor: colors.PRIMARY,
-        tabBarInactiveTintColor: colors.SECONDARY,
+        tabBarActiveTintColor: themeColors.PRIMARY,
+        tabBarInactiveTintColor: themeColors.SECONDARY,
         tabBarStyle: {
           minHeight: 54,
-          backgroundColor: colors.SECONDARY_BACKGROUND,
+          backgroundColor: themeColors.SECONDARY_BACKGROUND,
           borderTopWidth: 0,
           elevation: 0,
         },

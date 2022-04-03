@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import FastImage, { FastImageProps, ImageStyle } from 'react-native-fast-image';
+import { useState } from "react";
+import FastImage, { FastImageProps, ImageStyle } from "react-native-fast-image";
 
 interface Props extends FastImageProps {
   width: number;
