@@ -1,12 +1,12 @@
 import { StyleSheet } from "react-native";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { InitNavigation } from "../navigations/InitNavigation";
 import { themeColors } from "../styles/colors";
 import { AppButton, AppTextInput, CustomText, Radio } from "../components/common";
 import { NavigationProps } from "../navigations/types";
 import Form from "../components/register/Form";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 function RegisterPage() {
   const navigation = useNavigation<NavigationProps>();
@@ -27,6 +27,7 @@ function RegisterPage() {
         <AppTextInput
           placeholder="정기 결제 중인 항목의 이름을 입력해주세요."
           onPressIn={() => navigation.push("SearchListScreen")}
+          showSoftInputOnFocus={false}
         />
       </Form>
       <Form label="결제 요금">
@@ -43,7 +44,9 @@ function RegisterPage() {
       <Form label="메모">
         <AppTextInput placeholder="결제방법, 카드 등 필요하다면 메모해보세요." />
       </Form>
-      <AppButton disabled>완료</AppButton>
+      <AppButton onPress={() => {}} disabled>
+        완료
+      </AppButton>
     </SafeAreaView>
   );
 }

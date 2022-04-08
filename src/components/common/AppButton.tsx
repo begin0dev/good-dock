@@ -15,13 +15,25 @@ interface Props {
   type?: "primary" | "ghost";
   size?: "small" | "medium" | "large";
   style?: StyleProp<ViewStyle>;
-  children: ReactNode;
+  onPress: () => void;
   disabled?: boolean;
+  children: ReactNode;
 }
 
-function AppButton({ type = "primary", size = "medium", style, disabled, children }: Props) {
+function AppButton({
+  type = "primary",
+  size = "medium",
+  style,
+  disabled,
+  onPress,
+  children,
+}: Props) {
+  const onPressHandler = () => {
+    if (!disabled) onPress?.();
+  };
+
   return (
-    <TouchableNativeFeedback disabled={disabled}>
+    <TouchableNativeFeedback onPress={onPressHandler} disabled={disabled}>
       <View
         style={[
           styles.buttonWrapper,
