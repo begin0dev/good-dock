@@ -1,4 +1,4 @@
-export interface Subsribe {
+export interface Subscribe {
   _id: string;
   ko: string;
   en: string;

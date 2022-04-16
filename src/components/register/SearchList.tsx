@@ -1,7 +1,13 @@
 import { last, flatten } from "lodash";
 import { useCallback, useState } from "react";
 import { useInfiniteQuery } from "react-query";
-import { StyleSheet, FlatList, View } from "react-native";
+import {
+  StyleSheet,
+  FlatList,
+  View,
+  NativeSyntheticEvent,
+  TextInputChangeEventData,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { AppButton, AppTextInput, CustomText } from "../common";
@@ -31,6 +37,11 @@ function SearchList() {
     },
   );
 
+  const onChangeKeyword = (e: NativeSyntheticEvent<TextInputChangeEventData>) => {
+    setSelected(null);
+    onChange(e);
+  };
+
   const onPressItem = useCallback((ko: string) => {
     setSelected((prevState) => (prevState === ko ? null : ko));
   }, []);
@@ -46,7 +57,7 @@ function SearchList() {
                 검색 후, 아래 항목에 없을 시 직접 입력 후 확인을 눌러주세요.
               </CustomText>
             </View>
-            <AppTextInput value={keyword} onChange={onChange} placeholder="검색" />
+            <AppTextInput value={keyword} onChange={onChangeKeyword} placeholder="검색" />
           </>
         }
         ListHeaderComponentStyle={[styles.listHeader, styles.backgroundColor]}
@@ -56,11 +67,22 @@ function SearchList() {
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
           <SearchItem
+            type="DEFAULT"
             item={item}
             isChecked={item.ko === selected}
             onPressItem={() => onPressItem(item.ko)}
           />
         )}
+        ListEmptyComponent={
+          keyword ? (
+            <SearchItem
+              type="NOT_FOUND"
+              item={{ ko: keyword || "" }}
+              isChecked={keyword === selected}
+              onPressItem={() => onPressItem(keyword)}
+            />
+          ) : undefined
+        }
         onEndReached={() => !isLoading && hasNextPage && fetchNextPage()}
         scrollEnabled
       />
@@ -80,7 +102,6 @@ const spaceSize = 25;
 const styles = StyleSheet.create({
   container: {
     minHeight: "100%",
-    paddingVertical: spaceSize,
   },
   listContainer: {
     paddingHorizontal: spaceSize,
@@ -90,6 +111,7 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
   },
   listHeader: {
+    paddingTop: spaceSize,
     marginBottom: 20,
   },
   backgroundColor: {

@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
     paddingVertical: 45,
     height: "100%",
-    backgroundColor: themeColors.BACKGROUND,
   },
   nameText: {
     marginBottom: 14,

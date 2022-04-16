@@ -28,8 +28,8 @@
     "react-native-screens": "^3.13.1",
     "react-native-splash-screen": "^3.3.0",
     "react-native-svg": "^12.3.0",
-    "react-query": "^3.34.16",
-    "recoil": "^0.6.1"
+    "react-query": "^3.34.20",
+    "recoil": "^0.7.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

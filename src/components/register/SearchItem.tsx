@@ -2,26 +2,42 @@ import { memo } from "react";
 import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import FastImage from "react-native-fast-image";
 
-import { Subsribe } from "../../types/subsribe";
+import { Subscribe } from "../../types/subsribe";
 import { CustomText } from "../common";
 import { themeColors } from "../../styles/colors";
 import CheckIcon from "../common/CheckIcon";
+import { IcWallet } from "../../assets/svgs";
 
-interface Props {
-  item: Subsribe;
+interface PropsBase {
+  type: string;
   isChecked: boolean;
   onPressItem: () => void;
 }
+interface ItemProps extends PropsBase {
+  type: "DEFAULT";
+  item: Subscribe;
+}
+interface NotFoundItem extends PropsBase {
+  type: "NOT_FOUND";
+  item: { ko: string };
+}
 
-function SearchItem({ item, isChecked, onPressItem }: Props) {
+function SearchItem({ type, item, isChecked, onPressItem }: ItemProps | NotFoundItem) {
   return (
     <TouchableWithoutFeedback onPress={onPressItem}>
       <View style={styles.itemWrapper}>
-        <FastImage source={{ uri: item.imageUrl }} style={styles.itemImage} />
-        <CustomText fontSize={18} color={themeColors.TEXT_1}>
-          {item.ko}
+        {type === "DEFAULT" && (
+          <FastImage source={{ uri: item.imageUrl }} style={styles.itemImage} />
+        )}
+        {type === "NOT_FOUND" && (
+          <View style={styles.walletIcon}>
+            <IcWallet color={themeColors.SECONDARY_BACKGROUND} />
+          </View>
+        )}
+        <CustomText fontSize={18} color={themeColors.TEXT_1} style={styles.text}>
+          {`${item.ko}${type === "NOT_FOUND" ? " 등록하기" : ""}`}
         </CustomText>
-        <View style={styles.icon}>
+        <View style={styles.checkIcon}>
           <CheckIcon isChecked={isChecked} onPress={onPressItem} />
         </View>
       </View>
@@ -30,6 +46,9 @@ function SearchItem({ item, isChecked, onPressItem }: Props) {
 }
 
 export default memo(SearchItem);
+
+const ICON_SIZE = 40;
+const SPACE_SIZE = 14;
 
 const styles = StyleSheet.create({
   itemWrapper: {
@@ -40,12 +59,22 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   itemImage: {
-    width: 40,
-    height: 40,
+    width: ICON_SIZE,
+    height: ICON_SIZE,
     borderRadius: 20,
-    marginRight: 14,
   },
-  icon: {
+  walletIcon: {
+    width: ICON_SIZE,
+    height: ICON_SIZE,
+    borderRadius: ICON_SIZE / 2,
+    backgroundColor: themeColors.TEXT_1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  text: {
+    marginLeft: SPACE_SIZE,
+  },
+  checkIcon: {
     position: "absolute",
     right: 0,
   },

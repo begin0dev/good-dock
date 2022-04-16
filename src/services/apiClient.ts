@@ -1,12 +1,14 @@
 import ky from "ky";
+import qs from "qs";
 
-import TokenManager from "../helpers/token-manager";
 import { SERVER_URL } from "../config";
 import { getAccessTokenApi } from "./auth";
+import TokenManager from "../helpers/token-manager";
+import { Input, Options } from "ky/distribution/types/options";
 
 let pendingRefreshToken: boolean = false;
 
-const apiClient = ky.create({
+const apiInstance = ky.create({
   prefixUrl: SERVER_URL,
   timeout: 10 * 1000,
   hooks: {
@@ -38,5 +40,23 @@ const apiClient = ky.create({
     ],
   },
 });
+
+interface CustomOptions extends Options {
+  searchParams?: Record<string, any>;
+}
+
+const changeOptions = (options?: CustomOptions): Options | undefined =>
+  options?.searchParams
+    ? { ...options, searchParams: qs.stringify(options?.searchParams) }
+    : options;
+
+const apiClient = {
+  get: (url: Input, options?: CustomOptions) => apiInstance.get(url, changeOptions(options)),
+  post: (url: Input, options?: CustomOptions) => apiInstance.post(url, changeOptions(options)),
+  put: (url: Input, options?: CustomOptions) => apiInstance.put(url, changeOptions(options)),
+  delete: (url: Input, options?: CustomOptions) => apiInstance.delete(url, changeOptions(options)),
+  patch: (url: Input, options?: CustomOptions) => apiInstance.patch(url, changeOptions(options)),
+  head: (url: Input, options?: CustomOptions) => apiInstance.patch(url, changeOptions(options)),
+};
 
 export { apiClient };
