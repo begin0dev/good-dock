@@ -1,5 +1,6 @@
 import IcBack from "./ic-back.svg";
 import IcCalendar from "./ic-calendar.svg";
+import IcChevronLeft from "./ic-chevron-left.svg";
 import IcChevronRight from "./ic-chevron-right.svg";
 import IcClose from "./ic-close.svg";
 import IcCheck from "./ic-check.svg";
@@ -15,6 +16,7 @@ export {
   IcCalendar,
   IcMenu,
   IcKakao,
+  IcChevronLeft,
   IcChevronRight,
   IcPlus,
   IcBack,

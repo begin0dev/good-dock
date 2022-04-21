@@ -1,10 +1,10 @@
 import ky from "ky";
 import qs from "qs";
+import { Input, Options } from "ky/distribution/types/options";
 
 import { SERVER_URL } from "../config";
 import { getAccessTokenApi } from "./auth";
 import TokenManager from "../helpers/token-manager";
-import { Input, Options } from "ky/distribution/types/options";
 
 let pendingRefreshToken: boolean = false;
 

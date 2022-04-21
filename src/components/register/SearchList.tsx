@@ -1,5 +1,6 @@
 import { last, flatten } from "lodash";
 import { useCallback, useState } from "react";
+import { useSetRecoilState } from "recoil";
 import { useInfiniteQuery } from "react-query";
 import {
   StyleSheet,
@@ -15,11 +16,21 @@ import { themeColors } from "../../styles/colors";
 import { getSubscribesApi } from "../../services/subscribes";
 import { useSearchInput } from "../../hooks/useSearchInput";
 import SearchItem from "./SearchItem";
+import { registerFormState } from "./state/form";
+import { useNavigation } from "@react-navigation/native";
+import { NavigationProps } from "../../navigations/types";
+
+interface SelectItem {
+  ko: string;
+  imageUrl?: string;
+}
 
 function SearchList() {
   const limit = 15;
 
-  const [selected, setSelected] = useState<string | null>(null);
+  const navigation = useNavigation<NavigationProps>();
+  const setForm = useSetRecoilState(registerFormState);
+  const [selected, setSelected] = useState<SelectItem | null>(null);
   const { keyword, currentSearch, onChange } = useSearchInput();
   const { isLoading, data, hasNextPage, fetchNextPage } = useInfiniteQuery(
     ["getSubscribesApi", currentSearch],
@@ -42,9 +53,15 @@ function SearchList() {
     onChange(e);
   };
 
-  const onPressItem = useCallback((ko: string) => {
-    setSelected((prevState) => (prevState === ko ? null : ko));
+  const onPressItem = useCallback((item: SelectItem) => {
+    setSelected(item);
   }, []);
+
+  const onPressSubmit = () => {
+    if (!selected) return;
+    setForm((prevState) => ({ ...prevState, name: selected.ko, imageUrl: selected.imageUrl }));
+    navigation.goBack();
+  };
 
   return (
     <SafeAreaView style={[styles.container, styles.backgroundColor]}>
@@ -69,17 +86,17 @@ function SearchList() {
           <SearchItem
             type="DEFAULT"
             item={item}
-            isChecked={item.ko === selected}
-            onPressItem={() => onPressItem(item.ko)}
+            isChecked={item.ko === selected?.ko}
+            onPressItem={() => onPressItem(item)}
           />
         )}
         ListEmptyComponent={
-          keyword ? (
+          !isLoading && keyword ? (
             <SearchItem
               type="NOT_FOUND"
               item={{ ko: keyword || "" }}
-              isChecked={keyword === selected}
-              onPressItem={() => onPressItem(keyword)}
+              isChecked={keyword === selected?.ko}
+              onPressItem={() => onPressItem({ ko: keyword })}
             />
           ) : undefined
         }
@@ -87,7 +104,7 @@ function SearchList() {
         scrollEnabled
       />
       <View style={styles.footerWrapper}>
-        <AppButton onPress={() => {}} disabled={!selected}>
+        <AppButton onPress={onPressSubmit} disabled={!selected}>
           완료
         </AppButton>
       </View>

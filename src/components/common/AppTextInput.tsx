@@ -1,20 +1,18 @@
+import { forwardRef } from "react";
 import { StyleSheet, TextInputProps, TextInput } from "react-native";
 
 import { themeColors } from "../../styles/colors";
 import { SIZE_MAPPER, SizeType } from "../../helpers/utils";
-import { forwardRef } from "react";
 
 interface Props extends TextInputProps {
   size?: SizeType;
-  type?: "string" | "number";
 }
 
 const AppTextInput = forwardRef<TextInput, Props>(
-  ({ type = "string", size = "medium", style, ...restProps }, ref) => {
+  ({ size = "medium", style, ...restProps }, ref) => {
     return (
       <TextInput
         ref={ref}
-        keyboardType={type === "number" ? "numeric" : undefined}
         style={[
           styles.textInput,
           { height: SIZE_MAPPER[size], maxHeight: SIZE_MAPPER[size] },

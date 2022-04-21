@@ -3,16 +3,11 @@ import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import FastImage from "react-native-fast-image";
 
 import { Subscribe } from "../../types/subsribe";
-import { CustomText } from "../common";
 import { themeColors } from "../../styles/colors";
-import CheckIcon from "../common/CheckIcon";
 import { IcWallet } from "../../assets/svgs";
+import { CustomText } from "../common";
+import CheckIcon from "../common/CheckIcon";
 
-interface PropsBase {
-  type: string;
-  isChecked: boolean;
-  onPressItem: () => void;
-}
 interface ItemProps extends PropsBase {
   type: "DEFAULT";
   item: Subscribe;
@@ -20,6 +15,12 @@ interface ItemProps extends PropsBase {
 interface NotFoundItem extends PropsBase {
   type: "NOT_FOUND";
   item: { ko: string };
+}
+
+interface PropsBase {
+  type: string;
+  isChecked: boolean;
+  onPressItem: () => void;
 }
 
 function SearchItem({ type, item, isChecked, onPressItem }: ItemProps | NotFoundItem) {
