@@ -5,6 +5,7 @@ interface RegisterFormState {
   name: string;
   imageUrl: string | undefined;
   price: number | null;
+  startDate: Date | null;
 }
 
 export const registerFormState = atom<RegisterFormState>({
@@ -14,5 +15,6 @@ export const registerFormState = atom<RegisterFormState>({
     name: "",
     imageUrl: undefined,
     price: null,
+    startDate: null,
   },
 });

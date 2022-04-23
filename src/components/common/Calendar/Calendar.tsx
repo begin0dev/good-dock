@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity, TouchableNativeFeedback, View } from "react-native";
 import { add, format, getDate, getMonth, startOfMonth, sub } from "date-fns";
 
@@ -19,14 +19,18 @@ const dayOfWeeks = [
 ];
 
 interface Props {
-  defaultDate?: Date | undefined;
+  defaultDate?: Date | null | undefined;
   onPressDate?: (date: Date) => void;
 }
 
-function Calendar({ defaultDate = new Date(), onPressDate }: Props) {
-  const [monthDate, setMonthDate] = useState(startOfMonth(defaultDate));
+function Calendar({ defaultDate, onPressDate }: Props) {
+  const [monthDate, setMonthDate] = useState<Date>(startOfMonth(defaultDate || new Date()));
 
   const currentMonth = getMonth(monthDate);
+
+  useEffect(() => {
+    if (defaultDate) setMonthDate(startOfMonth(defaultDate));
+  }, [defaultDate]);
 
   return (
     <View style={styles.wrapper}>

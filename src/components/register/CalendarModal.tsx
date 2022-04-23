@@ -1,20 +1,23 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import Modal from "react-native-modal";
 
 import { themeColors } from "../../styles/colors";
 import { Calendar } from "../common";
 
 interface Props {
+  defaultDate?: Date | null | undefined;
   isVisible: boolean;
+  onPressDate?: (date: Date) => void;
   onClose?: () => void;
 }
 
-function CalendarModal({ isVisible }: Props) {
+function CalendarModal({ isVisible, defaultDate, onPressDate, onClose }: Props) {
   return (
-    <Modal isVisible={isVisible}>
+    <Modal isVisible={isVisible} onBackButtonPress={onClose}>
+      <Text>aaaa</Text>
       <View style={styles.wrapper}>
         <View style={styles.content}>
-          <Calendar />
+          <Calendar defaultDate={defaultDate} onPressDate={onPressDate} />
         </View>
       </View>
     </Modal>
@@ -24,6 +27,7 @@ function CalendarModal({ isVisible }: Props) {
 export default CalendarModal;
 
 const styles = StyleSheet.create({
+  closeBtn: {},
   wrapper: {
     alignItems: "center",
   },

@@ -5,6 +5,7 @@ import AutoHeightImage from "./AutoHeightImage";
 import BackButton from "./BackButton";
 import Calendar from "./Calendar/Calendar";
 import CustomText from "./CustomText";
+import CloseButton from "./CloseButton";
 import Radio from "./Radio";
 
 export {
@@ -15,5 +16,6 @@ export {
   BackButton,
   Calendar,
   CustomText,
+  CloseButton,
   Radio,
 };

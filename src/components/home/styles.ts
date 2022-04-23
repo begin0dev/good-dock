@@ -8,6 +8,11 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 10,
   },
+  detailIcon: {
+    width: 24,
+    height: 24,
+    padding: 6,
+  },
   cardBodyWrapper: {
     flexDirection: "row",
     alignItems: "center",

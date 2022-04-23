@@ -1,17 +1,17 @@
 import { TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import { IcClose } from "../../assets/svgs";
 import { themeColors } from "../../styles/colors";
-import { useNavigation } from "@react-navigation/native";
 
-function BackButton() {
+function CloseButton() {
   const navigation = useNavigation();
 
   return (
-    <TouchableOpacity onPress={() => navigation.goBack()}>
+    <TouchableOpacity onPress={navigation.goBack}>
       <IcClose color={themeColors.TEXT_0} />
     </TouchableOpacity>
   );
 }
 
-export default BackButton;
+export default CloseButton;

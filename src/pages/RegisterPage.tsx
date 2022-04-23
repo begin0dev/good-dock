@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -10,19 +11,32 @@ import { NavigationProps } from "../navigations/types";
 import { registerFormState } from "../components/register/state/form";
 import Form from "../components/register/Form";
 import CalendarModal from "../components/register/CalendarModal";
+import { format } from "date-fns";
 
 function RegisterPage() {
   const navigation = useNavigation<NavigationProps>();
   const { params } = useRoute<RouteProp<InitNavigation, "RegisterScreen">>();
+
   const [formState, setFormState] = useRecoilState(registerFormState);
+  const [showCalendar, setShowCalendar] = useState(false);
 
   const onChangePrice = (price: number) => {
     setFormState((prevState) => ({ ...prevState, price }));
   };
 
+  const onPressDate = (startDate: Date) => {
+    setFormState((prevState) => ({ ...prevState, startDate }));
+    setShowCalendar(false);
+  };
+
   return (
     <>
-      <CalendarModal isVisible={true} />
+      <CalendarModal
+        isVisible={showCalendar}
+        defaultDate={formState.startDate}
+        onPressDate={onPressDate}
+        onClose={() => setShowCalendar(false)}
+      />
       <SafeAreaView style={styles.container}>
         <Form label="카테고리 선택">
           <Radio
@@ -39,6 +53,7 @@ function RegisterPage() {
             value={formState.name}
             onPressIn={() => navigation.push("SearchListScreen")}
             showSoftInputOnFocus={false}
+            editable={false}
           />
         </Form>
         <Form label="결제 요금">
@@ -54,7 +69,13 @@ function RegisterPage() {
           </>
         </Form>
         <Form label="결제 시작일">
-          <AppTextInput placeholder="결제를 시작한 날짜를 입력해주세요." editable={false} />
+          <AppTextInput
+            placeholder="결제를 시작한 날짜를 입력해주세요."
+            value={formState.startDate ? format(formState.startDate, "yyyy년 M월 dd일") : ""}
+            onPressIn={() => setShowCalendar(true)}
+            showSoftInputOnFocus={false}
+            editable={false}
+          />
         </Form>
         <Form label="메모">
           <AppTextInput placeholder="결제방법, 카드 등 필요하다면 메모해보세요." />

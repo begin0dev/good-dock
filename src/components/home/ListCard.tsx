@@ -20,7 +20,9 @@ function ListCard({ title, registerType }: Props) {
     <>
       <View style={styles.cardHeaderWrapper}>
         <CustomText>{title}</CustomText>
-        <IcChevronRight color={themeColors.TEXT_0} />
+        <View style={styles.detailIcon}>
+          <IcChevronRight color={themeColors.TEXT_0} />
+        </View>
       </View>
       <View style={styles.cardBodyWrapper}>
         <TouchableWithoutFeedback
