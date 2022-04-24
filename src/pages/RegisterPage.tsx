@@ -3,15 +3,23 @@ import { useRecoilState } from "recoil";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { format } from "date-fns";
 
+import { NavigationProps } from "../navigations/types";
 import { InitNavigation } from "../navigations/InitNavigation";
 import { themeColors } from "../styles/colors";
-import { AppButton, AppTextInput, AppNumberInput, CustomText, Radio } from "../components/common";
-import { NavigationProps } from "../navigations/types";
+import {
+  AppButton,
+  AppTextInput,
+  AppNumberInput,
+  CustomText,
+  Divider,
+  Radio,
+  AppModal,
+  Calendar,
+} from "../components/common";
 import { registerFormState } from "../components/register/state/form";
 import Form from "../components/register/Form";
-import CalendarModal from "../components/register/CalendarModal";
-import { format } from "date-fns";
 
 function RegisterPage() {
   const navigation = useNavigation<NavigationProps>();
@@ -31,12 +39,12 @@ function RegisterPage() {
 
   return (
     <>
-      <CalendarModal
+      <AppModal
         isVisible={showCalendar}
-        defaultDate={formState.startDate}
-        onPressDate={onPressDate}
         onClose={() => setShowCalendar(false)}
-      />
+        contentStyle={styles.calendar}>
+        <Calendar defaultDate={formState.startDate} onPressDate={onPressDate} />
+      </AppModal>
       <SafeAreaView style={styles.container}>
         <Form label="카테고리 선택">
           <Radio
@@ -61,7 +69,7 @@ function RegisterPage() {
             <AppNumberInput
               withFormat
               placeholder="결제 금액을 입력해주세요."
-              onChangeText={onChangePrice}
+              onChangeNumber={onChangePrice}
             />
             <CustomText fontSize={12} style={styles.suffixText}>
               원 (KRW)
@@ -77,6 +85,13 @@ function RegisterPage() {
             editable={false}
           />
         </Form>
+        <Form label="결제 갱신 주기">
+          <AppNumberInput placeholder="주기" />
+          <CustomText fontSize={12} style={styles.suffixText}>
+            마다 정기 결제가 갱신됩니다.
+          </CustomText>
+        </Form>
+        <Divider style={styles.space} />
         <Form label="메모">
           <AppTextInput placeholder="결제방법, 카드 등 필요하다면 메모해보세요." />
         </Form>
@@ -100,5 +115,11 @@ const styles = StyleSheet.create({
   suffixText: {
     padding: 6,
     marginLeft: 6,
+  },
+  space: {
+    marginBottom: 15,
+  },
+  calendar: {
+    width: 332,
   },
 });

@@ -9,7 +9,7 @@ interface Props extends Omit<TextInputProps, "defaultValue" | "value" | "onChang
   withFormat?: boolean;
   defaultValue?: number;
   value?: number;
-  onChangeText?: (value: number) => void;
+  onChangeNumber?: (value: number) => void;
 }
 
 const ONLY_NUMBER_REGEX = /[^(\-.\d)]/g;
@@ -28,7 +28,7 @@ const parsingValue = (
 
 const AppNumberInput = forwardRef<TextInput, Props>(
   (
-    { size = "medium", style, defaultValue, value, onChangeText, withFormat, ...restProps },
+    { size = "medium", style, defaultValue, value, onChangeNumber, withFormat, ...restProps },
     ref,
   ) => {
     const [text, setText] = useState<string | undefined>(
@@ -39,7 +39,7 @@ const AppNumberInput = forwardRef<TextInput, Props>(
       const onlyNumber = strValue.toString().replace(ONLY_NUMBER_REGEX, "");
       setText(parsingValue(onlyNumber, withFormat));
       const number = Number(onlyNumber);
-      onChangeText?.(isNaN(number) ? 0 : number);
+      onChangeNumber?.(isNaN(number) ? 0 : number);
     };
 
     useEffect(() => {

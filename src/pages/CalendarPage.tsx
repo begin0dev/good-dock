@@ -1,4 +1,4 @@
-import { Text } from 'react-native';
+import { Text } from "react-native";
 
 function CalendarPage() {
   return <Text>Calendar</Text>;

@@ -1,18 +1,18 @@
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { ReactNode } from "react";
 import Modal from "react-native-modal";
+import { StyleProp, StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
 
-import { themeColors } from "../../styles/colors";
-import { Calendar } from "../common";
 import { IcClose } from "../../assets/svgs";
+import { themeColors } from "../../styles/colors";
 
 interface Props {
-  defaultDate?: Date | null | undefined;
   isVisible: boolean;
-  onPressDate?: (date: Date) => void;
   onClose?: () => void;
+  contentStyle?: StyleProp<ViewStyle>;
+  children: ReactNode;
 }
 
-function CalendarModal({ isVisible, defaultDate, onPressDate, onClose }: Props) {
+function AppModal({ isVisible, onClose, contentStyle, children }: Props) {
   return (
     <Modal isVisible={isVisible} onBackButtonPress={onClose} backdropOpacity={0.4}>
       <View style={styles.wrapper}>
@@ -21,15 +21,13 @@ function CalendarModal({ isVisible, defaultDate, onPressDate, onClose }: Props) 
             <IcClose color={themeColors.SECONDARY_BACKGROUND} />
           </TouchableOpacity>
         </View>
-        <View style={styles.content}>
-          <Calendar defaultDate={defaultDate} onPressDate={onPressDate} />
-        </View>
+        <View style={[styles.content, contentStyle]}>{children}</View>
       </View>
     </Modal>
   );
 }
 
-export default CalendarModal;
+export default AppModal;
 
 const styles = StyleSheet.create({
   closeBtnWrapper: {
@@ -54,7 +52,6 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
   },
   content: {
-    width: 332,
     paddingVertical: 12,
     paddingHorizontal: 7,
     backgroundColor: themeColors.SECONDARY_BACKGROUND,
