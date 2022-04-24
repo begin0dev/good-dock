@@ -2,10 +2,10 @@ import { StyleSheet, Text, TextProps } from "react-native";
 
 import { themeColors } from "../../styles/colors";
 
-const FONT_WEIGHTS = {
-  normal: "400",
-  semiBold: "600",
-  bold: "700",
+const FONT_FAMILY = {
+  normal: "Noto Sans KR",
+  semiBold: "Noto Sans KR Medium",
+  bold: "Noto Sans KR Bold",
 } as const;
 
 interface Props extends TextProps {
@@ -27,7 +27,7 @@ function CustomText({
   return (
     <Text
       style={[
-        { color: color || themeColors.TEXT_0, fontSize, fontWeight: FONT_WEIGHTS[fontWeight] },
+        { fontSize, color: color || themeColors.TEXT_0, fontFamily: FONT_FAMILY[fontWeight] },
         type ? styles[type] : null,
         style,
       ]}
