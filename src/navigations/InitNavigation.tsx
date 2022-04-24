@@ -32,7 +32,7 @@ const headerOptions: NativeStackNavigationOptions = {
     color: themeColors.TEXT_0,
   },
   headerStyle: {
-    backgroundColor: themeColors.SECONDARY_BACKGROUND,
+    backgroundColor: themeColors.BACKGROUND,
   },
 };
 

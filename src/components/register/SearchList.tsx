@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   backgroundColor: {
-    backgroundColor: themeColors.SECONDARY_BACKGROUND,
+    backgroundColor: themeColors.BACKGROUND,
   },
   footerWrapper: {
     position: "absolute",

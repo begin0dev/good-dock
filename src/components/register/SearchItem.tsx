@@ -32,7 +32,7 @@ function SearchItem({ type, item, isChecked, onPressItem }: ItemProps | NotFound
         )}
         {type === "NOT_FOUND" && (
           <View style={styles.walletIcon}>
-            <IcWallet color={themeColors.SECONDARY_BACKGROUND} />
+            <IcWallet color={themeColors.BACKGROUND} />
           </View>
         )}
         <CustomText fontSize={18} color={themeColors.TEXT_1} style={styles.text}>

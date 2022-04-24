@@ -49,6 +49,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 22,
     marginBottom: 14,
     minHeight: 100,
-    backgroundColor: themeColors.SECONDARY_BACKGROUND,
+    backgroundColor: themeColors.BACKGROUND,
   },
 });

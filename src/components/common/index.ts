@@ -4,11 +4,12 @@ import AppNumberInput from "./AppNumberInput";
 import AppModal from "./AppModal";
 import AutoHeightImage from "./AutoHeightImage";
 import BackButton from "./BackButton";
-import Calendar from "./Calendar/Calendar";
+import Calendar from "./calendar/Calendar";
 import CustomText from "./CustomText";
 import CloseButton from "./CloseButton";
 import Divider from "./Divider";
 import Radio from "./Radio";
+import Select from "./select/Select";
 
 export {
   AppButton,
@@ -22,4 +23,5 @@ export {
   CloseButton,
   Divider,
   Radio,
+  Select,
 };

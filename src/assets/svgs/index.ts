@@ -2,6 +2,7 @@ import IcBack from "./ic-back.svg";
 import IcCalendar from "./ic-calendar.svg";
 import IcChevronLeft from "./ic-chevron-left.svg";
 import IcChevronRight from "./ic-chevron-right.svg";
+import IcChevronDown from "./ic-chevron-down.svg";
 import IcClose from "./ic-close.svg";
 import IcCheck from "./ic-check.svg";
 import IcDotsHorizontal from "./ic-dots-horizontal.svg";
@@ -18,6 +19,7 @@ export {
   IcKakao,
   IcChevronLeft,
   IcChevronRight,
+  IcChevronDown,
   IcPlus,
   IcBack,
   IcClose,

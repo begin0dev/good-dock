@@ -29,7 +29,7 @@ function AppNavigation() {
         tabBarInactiveTintColor: themeColors.SECONDARY,
         tabBarStyle: {
           minHeight: 54,
-          backgroundColor: themeColors.SECONDARY_BACKGROUND,
+          backgroundColor: themeColors.BACKGROUND,
           borderTopWidth: 0,
           elevation: 0,
         },

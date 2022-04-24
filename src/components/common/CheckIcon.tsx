@@ -11,7 +11,7 @@ function CheckIcon({ onPress, isChecked }: Props) {
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={[styles.buttonWrapper, isChecked && styles.active]}>
-        <IcCheck color={isChecked ? themeColors.SECONDARY_BACKGROUND : themeColors.TEXT_1} />
+        <IcCheck color={isChecked ? themeColors.BACKGROUND : themeColors.TEXT_1} />
       </View>
     </TouchableOpacity>
   );

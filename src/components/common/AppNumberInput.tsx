@@ -69,6 +69,7 @@ export default AppNumberInput;
 const styles = StyleSheet.create({
   textInput: {
     flex: 1,
+    fontSize: 14,
     color: themeColors.TEXT_0,
     borderColor: themeColors.TEXT_1,
     borderRadius: 6,

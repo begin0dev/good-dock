@@ -53,6 +53,7 @@ export default AppButton;
 
 const styles = StyleSheet.create({
   buttonWrapper: {
+    minWidth: 60,
     borderRadius: 6,
     justifyContent: "center",
     alignItems: "center",

@@ -18,7 +18,7 @@ function AppModal({ isVisible, onClose, contentStyle, children }: Props) {
       <View style={styles.wrapper}>
         <View style={styles.closeBtnWrapper}>
           <TouchableOpacity style={styles.closeBtn} onPress={onClose}>
-            <IcClose color={themeColors.SECONDARY_BACKGROUND} />
+            <IcClose color={themeColors.BACKGROUND} />
           </TouchableOpacity>
         </View>
         <View style={[styles.content, contentStyle]}>{children}</View>
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   content: {
     paddingVertical: 12,
     paddingHorizontal: 7,
-    backgroundColor: themeColors.SECONDARY_BACKGROUND,
+    backgroundColor: themeColors.BACKGROUND,
     borderRadius: 20,
   },
 });

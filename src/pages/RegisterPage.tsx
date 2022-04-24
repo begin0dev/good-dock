@@ -17,6 +17,7 @@ import {
   Radio,
   AppModal,
   Calendar,
+  Select,
 } from "../components/common";
 import { registerFormState } from "../components/register/state/form";
 import Form from "../components/register/Form";
@@ -61,7 +62,6 @@ function RegisterPage() {
             value={formState.name}
             onPressIn={() => navigation.push("SearchListScreen")}
             showSoftInputOnFocus={false}
-            editable={false}
           />
         </Form>
         <Form label="결제 요금">
@@ -82,11 +82,11 @@ function RegisterPage() {
             value={formState.startDate ? format(formState.startDate, "yyyy년 M월 dd일") : ""}
             onPressIn={() => setShowCalendar(true)}
             showSoftInputOnFocus={false}
-            editable={false}
           />
         </Form>
         <Form label="결제 갱신 주기">
           <AppNumberInput placeholder="주기" />
+          <Select placeholder="단위" />
           <CustomText fontSize={12} style={styles.suffixText}>
             마다 정기 결제가 갱신됩니다.
           </CustomText>
@@ -107,7 +107,7 @@ export default RegisterPage;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: themeColors.SECONDARY_BACKGROUND,
+    backgroundColor: themeColors.BACKGROUND,
     minHeight: "100%",
     paddingHorizontal: 25,
     paddingVertical: 30,
