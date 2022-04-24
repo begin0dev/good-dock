@@ -41,7 +41,7 @@ function AppButton({
           { height: SIZE_MAPPER[size] },
           style,
         ]}>
-        <CustomText fontWeight="semiBold" color={TEXT_COLOR_MAPPER[type]}>
+        <CustomText fontWeight="medium" color={TEXT_COLOR_MAPPER[type]}>
           {children}
         </CustomText>
       </View>

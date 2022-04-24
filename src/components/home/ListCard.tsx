@@ -38,7 +38,7 @@ function ListCard({ title, registerType }: Props) {
       </View>
       <View style={styles.cardSummary}>
         <CustomText style={styles.summaryLabel}>이번달 구독료</CustomText>
-        <CustomText fontWeight="semiBold" color={themeColors.PRIMARY}>
+        <CustomText fontWeight="medium" color={themeColors.PRIMARY}>
           {numberWithCommas(1000)}원
         </CustomText>
       </View>

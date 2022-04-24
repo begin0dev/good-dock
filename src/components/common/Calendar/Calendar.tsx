@@ -35,7 +35,7 @@ function Calendar({ defaultDate, onPressDate }: Props) {
   return (
     <View style={styles.wrapper}>
       <View style={styles.header}>
-        <CustomText color={themeColors.TEXT_HEADER} fontSize={18} fontWeight="semiBold">
+        <CustomText color={themeColors.TEXT_HEADER} fontSize={18} fontWeight="medium">
           {format(monthDate, "yyyy년 MM월")}
         </CustomText>
         <View style={styles.headerIcons}>

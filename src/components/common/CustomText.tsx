@@ -4,13 +4,19 @@ import { themeColors } from "../../styles/colors";
 
 const FONT_FAMILY = {
   normal: "Noto Sans KR",
-  semiBold: "Noto Sans KR Medium",
+  medium: "Noto Sans KR Medium",
   bold: "Noto Sans KR Bold",
+} as const;
+
+const FONT_WEIGHT = {
+  normal: "400",
+  medium: "600",
+  bold: "700",
 } as const;
 
 interface Props extends TextProps {
   color?: string;
-  fontWeight?: "normal" | "semiBold" | "bold";
+  fontWeight?: "normal" | "medium" | "bold";
   fontSize?: number;
   type?: "h1" | "subText";
 }
@@ -27,7 +33,12 @@ function CustomText({
   return (
     <Text
       style={[
-        { fontSize, color: color || themeColors.TEXT_0, fontFamily: FONT_FAMILY[fontWeight] },
+        {
+          fontSize,
+          color: color || themeColors.TEXT_0,
+          fontFamily: FONT_FAMILY[fontWeight],
+          fontWeight: FONT_WEIGHT[fontWeight],
+        },
         type ? styles[type] : null,
         style,
       ]}
