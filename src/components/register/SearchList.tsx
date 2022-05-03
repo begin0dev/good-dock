@@ -1,6 +1,6 @@
 import { last, flatten } from "lodash";
 import { useCallback, useState } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { useInfiniteQuery } from "react-query";
 import {
   StyleSheet,
@@ -29,8 +29,10 @@ function SearchList() {
   const limit = 15;
 
   const navigation = useNavigation<NavigationProps>();
-  const setForm = useSetRecoilState(registerFormState);
-  const [selected, setSelected] = useState<SelectItem | null>(null);
+  const [formState, setFormState] = useRecoilState(registerFormState);
+  const [selected, setSelected] = useState<SelectItem | null>(
+    formState.name ? { ko: formState.name } : null,
+  );
   const { keyword, currentSearch, onChange } = useSearchInput();
   const { isLoading, data, hasNextPage, fetchNextPage } = useInfiniteQuery(
     ["getSubscribesApi", currentSearch],
@@ -48,18 +50,13 @@ function SearchList() {
     },
   );
 
-  const onChangeKeyword = (e: NativeSyntheticEvent<TextInputChangeEventData>) => {
-    setSelected(null);
-    onChange(e);
-  };
-
   const onPressItem = useCallback((item: SelectItem) => {
     setSelected(item);
   }, []);
 
   const onPressSubmit = () => {
     if (!selected) return;
-    setForm((prevState) => ({ ...prevState, name: selected.ko, imageUrl: selected.imageUrl }));
+    setFormState((prevState) => ({ ...prevState, name: selected.ko, imageUrl: selected.imageUrl }));
     navigation.goBack();
   };
 
@@ -74,7 +71,7 @@ function SearchList() {
                 검색 후, 아래 항목에 없을 시 직접 입력 후 확인을 눌러주세요.
               </CustomText>
             </View>
-            <AppTextInput value={keyword} onChange={onChangeKeyword} placeholder="검색" />
+            <AppTextInput value={keyword} onChange={onChange} placeholder="검색" />
           </>
         }
         ListHeaderComponentStyle={[styles.listHeader, styles.backgroundColor]}

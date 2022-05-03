@@ -6,19 +6,25 @@ import { themeColors } from "../../styles/colors";
 import { SIZE_MAPPER } from "../../helpers/utils";
 import useId from "../../hooks/useId";
 
-interface Props {
+interface Props<V> {
   size?: "small" | "medium" | "large";
   space?: number;
-  defaultValue?: string | number;
-  items: Array<{ label: string; value: string | number }>;
-  onPress?: (value: string | number) => void;
+  defaultValue?: V;
+  items: Array<{ label: string; value: V }>;
+  onPress?: (value: V) => void;
 }
 
-function Radio({ size = "medium", defaultValue, space = 10, onPress, items }: Props) {
+function Radio<V extends string>({
+  size = "medium",
+  defaultValue,
+  space = 10,
+  onPress,
+  items,
+}: Props<V>) {
   const id = useId();
-  const [checked, setChecked] = useState<string | number | undefined>(defaultValue);
+  const [checked, setChecked] = useState<V | undefined>(defaultValue);
 
-  const onClick = (value: string | number) => {
+  const onClick = (value: V) => {
     setChecked(value);
     onPress?.(value);
   };

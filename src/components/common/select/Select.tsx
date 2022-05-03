@@ -1,26 +1,53 @@
 import { useState } from "react";
 import Modal from "react-native-modal";
-import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
+import {
+  StyleSheet,
+  ScrollView,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 import { themeColors } from "../../../styles/colors";
 import { IcChevronDown } from "../../../assets/svgs";
 import CustomText from "../CustomText";
 import AppButton from "../AppButton";
 
-interface Props {
+const ITEM_HEIGHT = 40;
+const FONT_SIZE = 14;
+
+interface Props<V extends string | number = string> {
   placeholder?: string;
+  value?: V | null;
+  items: { label?: string; value: string | number }[];
+  onPressItem: (value: V) => void;
+  viewCount?: number;
 }
 
-function Select({ placeholder }: Props) {
-  const FONT_SIZE = 14;
-
+function Select<V extends string | number = string>({
+  placeholder,
+  value,
+  items,
+  onPressItem,
+  viewCount = 5,
+}: Props<V>) {
   const [isVisible, setIsVisible] = useState(false);
+
+  const onPress = (nextValue: string | number) => {
+    onPressItem(nextValue as V);
+    setIsVisible(false);
+  };
 
   return (
     <>
       <TouchableWithoutFeedback onPress={() => setIsVisible(true)}>
         <View style={styles.wrapper}>
-          {placeholder && (
+          {value && (
+            <CustomText fontSize={FONT_SIZE}>
+              {items.find((item) => item.value === value)!.label}
+            </CustomText>
+          )}
+          {!value && placeholder && (
             <CustomText fontSize={FONT_SIZE} color={themeColors.TEXT_1}>
               {placeholder}
             </CustomText>
@@ -31,20 +58,24 @@ function Select({ placeholder }: Props) {
       <Modal isVisible={isVisible} backdropOpacity={0.3} style={styles.modal}>
         <View style={styles.modalWrapper}>
           <View style={styles.modalController}>
-            <AppButton
-              size="small"
-              type="ghost"
-              onPress={() => setIsVisible(false)}
-              style={styles.btnSpace}>
+            <AppButton size="small" type="ghost" onPress={() => setIsVisible(false)}>
               취소
             </AppButton>
-            <AppButton size="small" onPress={() => {}}>
-              확인
-            </AppButton>
           </View>
-          <CustomText fontSize={FONT_SIZE} color={themeColors.TEXT_1}>
-            aaaaa
-          </CustomText>
+          <ScrollView style={[{ height: ITEM_HEIGHT * viewCount + 20 }, styles.selectWrapper]}>
+            {items.map((item) => (
+              <TouchableOpacity
+                key={item.value}
+                style={styles.selectItem}
+                onPress={() => onPress(item.value)}>
+                <CustomText
+                  fontSize={16}
+                  color={value === item.value ? themeColors.PRIMARY : themeColors.TEXT_1}>
+                  {item.label ?? item.value.toString()}
+                </CustomText>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
         </View>
       </Modal>
     </>
@@ -82,16 +113,20 @@ const styles = StyleSheet.create({
   },
   modalWrapper: {
     backgroundColor: themeColors.BACKGROUND,
-    minHeight: 200,
   },
   modalController: {
-    justifyContent: "flex-end",
     flexDirection: "row",
+    justifyContent: "flex-end",
     padding: 4,
     borderBottomColor: themeColors.TEXT_1,
     borderBottomWidth: 1,
   },
-  btnSpace: {
-    marginRight: 4,
+  selectWrapper: {
+    marginVertical: 10,
+  },
+  selectItem: {
+    height: ITEM_HEIGHT,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

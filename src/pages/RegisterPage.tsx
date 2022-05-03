@@ -22,6 +22,13 @@ import {
 import { registerFormState } from "../components/register/state/form";
 import Form from "../components/register/Form";
 
+const PERIOD_ITEMS = [
+  { label: "일", value: "day" },
+  { label: "주", value: "week" },
+  { label: "개월", value: "month" },
+  { label: "년", value: "year" },
+];
+
 function RegisterPage() {
   const navigation = useNavigation<NavigationProps>();
   const { params } = useRoute<RouteProp<InitNavigation, "RegisterScreen">>();
@@ -29,13 +36,13 @@ function RegisterPage() {
   const [formState, setFormState] = useRecoilState(registerFormState);
   const [showCalendar, setShowCalendar] = useState(false);
 
-  const onChangePrice = (price: number) => {
-    setFormState((prevState) => ({ ...prevState, price }));
-  };
-
   const onPressDate = (startDate: Date) => {
     setFormState((prevState) => ({ ...prevState, startDate }));
     setShowCalendar(false);
+  };
+
+  const onPressPeriod = (unit: "day" | "week" | "month" | "year") => {
+    setFormState((prevState) => ({ ...prevState, unit }));
   };
 
   return (
@@ -50,10 +57,13 @@ function RegisterPage() {
         <Form label="카테고리 선택">
           <Radio
             defaultValue={params.type}
-            items={[
-              { label: "구독", value: "subscribe" },
-              { label: "고정 생활비", value: "fixed" },
-            ]}
+            items={
+              [
+                { label: "구독", value: "subscribe" },
+                { label: "고정 생활비", value: "fixed" },
+              ] as { label: string; value: "subscribe" | "fixed" }[]
+            }
+            onPress={(type) => setFormState((prevState) => ({ ...prevState, type }))}
           />
         </Form>
         <Form label="정기 결제명">
@@ -69,7 +79,9 @@ function RegisterPage() {
             <AppNumberInput
               withFormat
               placeholder="결제 금액을 입력해주세요."
-              onChangeNumber={onChangePrice}
+              onChangeNumber={(price: number) =>
+                setFormState((prevState) => ({ ...prevState, price }))
+              }
             />
             <CustomText fontSize={12} style={styles.suffixText}>
               원 (KRW)
@@ -85,17 +97,32 @@ function RegisterPage() {
           />
         </Form>
         <Form label="결제 갱신 주기">
-          <AppNumberInput placeholder="주기" />
-          <Select placeholder="단위" />
+          <AppNumberInput
+            placeholder="주기"
+            style={styles.itemSpace}
+            onChangeNumber={(period) => setFormState((prevState) => ({ ...prevState, period }))}
+          />
+          <Select
+            placeholder="단위"
+            value={formState.unit}
+            items={PERIOD_ITEMS}
+            onPressItem={onPressPeriod}
+          />
           <CustomText fontSize={12} style={styles.suffixText}>
             마다 정기 결제가 갱신됩니다.
           </CustomText>
         </Form>
-        <Divider style={styles.space} />
+        <Divider style={styles.divider} />
         <Form label="메모">
-          <AppTextInput placeholder="결제방법, 카드 등 필요하다면 메모해보세요." />
+          <AppTextInput
+            placeholder="결제방법, 카드 등 필요하다면 메모해보세요."
+            onChangeText={(memo) => setFormState((prevState) => ({ ...prevState, memo }))}
+          />
         </Form>
-        <AppButton onPress={() => {}} disabled>
+        <AppButton
+          onPress={() => {
+            console.log(formState);
+          }}>
           완료
         </AppButton>
       </SafeAreaView>
@@ -116,8 +143,11 @@ const styles = StyleSheet.create({
     padding: 6,
     marginLeft: 6,
   },
-  space: {
+  divider: {
     marginBottom: 15,
+  },
+  itemSpace: {
+    marginRight: 6,
   },
   calendar: {
     width: 332,
