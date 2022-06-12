@@ -1,18 +1,18 @@
-import { addDays, endOfMonth, endOfWeek, getDay, startOfWeek } from "date-fns";
+import dayjs, { Dayjs } from "dayjs";
 
-export const getMonthDays = (start: Date | number) => {
-  let prev = startOfWeek(start);
-  let end = endOfWeek(endOfMonth(start));
+export const getMonthDays = (start: Date | Dayjs | number) => {
+  let prev = dayjs(start).startOf("w");
+  let end = dayjs(start).endOf("M").endOf("w");
   let weekIndex: number = 0;
-  const daysGroup: Array<Array<Date>> = [];
+  const daysGroup: Array<Array<Dayjs>> = [];
   while (prev < end) {
-    let monthOfWeek = getDay(prev);
+    let monthOfWeek = prev.day().valueOf();
     if (prev === start || monthOfWeek === 0) {
       daysGroup.push(Array(7).fill(null));
     }
     daysGroup[weekIndex][monthOfWeek] = prev;
     if (monthOfWeek === 6) weekIndex += 1;
-    prev = addDays(prev, 1);
+    prev = prev.add(1, "d");
   }
   return daysGroup;
 };

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity, TouchableNativeFeedback, View } from "react-native";
-import { add, format, getDate, getMonth, startOfMonth, sub } from "date-fns";
+import dayjs, { Dayjs } from "dayjs";
 
 import CustomText from "../CustomText";
 import { themeColors } from "../../../styles/colors";
@@ -19,34 +19,36 @@ const dayOfWeeks = [
 ];
 
 interface Props {
-  defaultDate?: Date | null | undefined;
-  onPressDate?: (date: Date) => void;
+  defaultDate?: Date | Dayjs | undefined;
+  onPressDate?: (date: Dayjs) => void;
 }
 
 function Calendar({ defaultDate, onPressDate }: Props) {
-  const [monthDate, setMonthDate] = useState<Date>(startOfMonth(defaultDate || new Date()));
+  const [monthDate, setMonthDate] = useState<Dayjs>(dayjs(defaultDate).startOf("M"));
 
-  const currentMonth = getMonth(monthDate);
+  const currentMonth = monthDate.month();
 
   useEffect(() => {
-    if (defaultDate) setMonthDate(startOfMonth(defaultDate));
+    if (defaultDate) setMonthDate(dayjs(defaultDate).startOf("M"));
   }, [defaultDate]);
+
+  console.log(getMonthDays(monthDate));
 
   return (
     <View style={styles.wrapper}>
       <View style={styles.header}>
         <CustomText color={themeColors.TEXT_HEADER} fontSize={18} fontWeight="medium">
-          {format(monthDate, "yyyy년 MM월")}
+          {monthDate.format("YYYY년 MM월")}
         </CustomText>
         <View style={styles.headerIcons}>
           <TouchableOpacity
             style={[styles.headerIconBtn, styles.headerIconSpace]}
-            onPress={() => setMonthDate(startOfMonth(sub(monthDate, { months: 1 })))}>
+            onPress={() => setMonthDate(monthDate.subtract(1, "M").startOf("M"))}>
             <IcChevronLeft height={16} width={7} color={themeColors.TEXT_1} />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.headerIconBtn}
-            onPress={() => setMonthDate(startOfMonth(add(monthDate, { months: 1 })))}>
+            onPress={() => setMonthDate(monthDate.add(1, "M").startOf("M"))}>
             <IcChevronRight height={16} width={7} color={themeColors.TEXT_1} />
           </TouchableOpacity>
         </View>
@@ -68,12 +70,9 @@ function Calendar({ defaultDate, onPressDate }: Props) {
                 key={`week_${weekIndex}_date_${dateIndex}`}
                 onPress={() => onPressDate?.(date)}>
                 <View
-                  style={sx(styles.tableCell, [
-                    styles.outOfMonth,
-                    currentMonth !== getMonth(date),
-                  ])}>
+                  style={sx(styles.tableCell, [styles.outOfMonth, currentMonth !== date.month()])}>
                   <CustomText fontSize={12} color={dayOfWeeks[dateIndex].color}>
-                    {getDate(date)}
+                    {date.date()}
                   </CustomText>
                 </View>
               </TouchableNativeFeedback>

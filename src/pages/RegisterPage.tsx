@@ -3,7 +3,7 @@ import { useRecoilState, useResetRecoilState } from "recoil";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { format } from "date-fns";
+import dayjs, { Dayjs } from "dayjs";
 
 import { NavigationProps } from "../navigations/types";
 import { InitNavigation } from "../navigations/InitNavigation";
@@ -61,7 +61,7 @@ function RegisterPage() {
     }
   });
 
-  const onPressDate = (startDate: Date) => {
+  const onPressDate = (startDate: Dayjs) => {
     setFormState((prevState) => ({ ...prevState, startDate }));
     setShowCalendar(false);
   };
@@ -118,7 +118,7 @@ function RegisterPage() {
         <Form label="결제 시작일">
           <AppTextInput
             placeholder="결제를 시작한 날짜를 입력해주세요."
-            value={formState.startDate ? format(formState.startDate, "yyyy년 M월 dd일") : ""}
+            value={formState.startDate ? dayjs(formState.startDate).format("YYYY년 MM월 DD일") : ""}
             onPressIn={() => setShowCalendar(true)}
             showSoftInputOnFocus={false}
           />
