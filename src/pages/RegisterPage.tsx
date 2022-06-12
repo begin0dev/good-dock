@@ -20,9 +20,10 @@ import {
   Select,
 } from "../components/common";
 import { registerFormState } from "../components/register/state/form";
-import Form from "../components/register/Form";
 import { useSendApi } from "../hooks";
+import { useToast } from "../components/common/toast";
 import { formValidatorSchema } from "../components/register/state/form.validator";
+import Form from "../components/register/Form";
 
 const PERIOD_ITEMS = [
   { label: "일", value: "day" },
@@ -41,10 +42,14 @@ function RegisterPage() {
   const { params } = useRoute<RouteProp<InitNavigation, "RegisterScreen">>();
 
   const [formState, setFormState] = useRecoilState(registerFormState);
-  const [showCalendar, setShowCalendar] = useState(false);
-  const [isValid, setIsValid] = useState(false);
 
-  const [isLoading, submit] = useSendApi(async () => {});
+  const [isValid, setIsValid] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
+
+  const { addToast } = useToast();
+  const [isLoading, submit] = useSendApi(async () => {
+    addToast({ message: "test" });
+  });
 
   const onPressDate = (startDate: Date) => {
     setFormState((prevState) => ({ ...prevState, startDate }));
@@ -81,7 +86,7 @@ function RegisterPage() {
         <Form label="정기 결제명">
           <AppTextInput
             placeholder="정기 결제 중인 항목의 이름을 입력해주세요."
-            value={formState.ko}
+            value={formState.name}
             onPressIn={() => navigation.push("SearchListScreen")}
             showSoftInputOnFocus={false}
           />

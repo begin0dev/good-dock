@@ -25,7 +25,7 @@ function SearchList() {
   const navigation = useNavigation<NavigationProps>();
   const [formState, setFormState] = useRecoilState(registerFormState);
   const [selected, setSelected] = useState<SelectItem | null>(
-    formState.ko ? { ko: formState.ko } : null,
+    formState.name ? { ko: formState.name } : null,
   );
   const { keyword, currentSearch, onChange } = useSearchInput();
   const { isLoading, data, hasNextPage, fetchNextPage } = useInfiniteQuery(

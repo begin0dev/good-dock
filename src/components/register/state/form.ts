@@ -2,7 +2,7 @@ import { atom } from "recoil";
 
 export interface RegisterFormState {
   type: "subscribe" | "fixed";
-  ko: string | undefined;
+  name: string | undefined;
   imageUrl: string | undefined;
   price: number | undefined;
   startDate: Date | undefined;
@@ -15,7 +15,7 @@ export const registerFormState = atom<RegisterFormState>({
   key: "registerFormState",
   default: {
     type: "subscribe",
-    ko: undefined,
+    name: undefined,
     imageUrl: undefined,
     price: undefined,
     startDate: undefined,
