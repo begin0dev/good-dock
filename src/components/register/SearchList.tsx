@@ -3,6 +3,7 @@ import { useCallback, useState } from "react";
 import { useRecoilState } from "recoil";
 import { useInfiniteQuery } from "react-query";
 import { StyleSheet, FlatList, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { AppButton, AppTextInput, CustomText } from "../common";
@@ -11,7 +12,6 @@ import { getSubscribesApi } from "../../services/subscribes";
 import { useSearchInput } from "../../hooks";
 import SearchItem from "./SearchItem";
 import { registerFormState } from "./state/form";
-import { useNavigation } from "@react-navigation/native";
 import { NavigationProps } from "../../navigations/types";
 
 interface SelectItem {
@@ -25,7 +25,7 @@ function SearchList() {
   const navigation = useNavigation<NavigationProps>();
   const [formState, setFormState] = useRecoilState(registerFormState);
   const [selected, setSelected] = useState<SelectItem | null>(
-    formState.name ? { ko: formState.name } : null,
+    formState.ko ? { ko: formState.ko, imageUrl: formState.imageUrl } : null,
   );
   const { keyword, currentSearch, onChange } = useSearchInput();
   const { isLoading, data, hasNextPage, fetchNextPage } = useInfiniteQuery(
@@ -50,7 +50,7 @@ function SearchList() {
 
   const onPressSubmit = () => {
     if (!selected) return;
-    setFormState((prevState) => ({ ...prevState, name: selected.ko, imageUrl: selected.imageUrl }));
+    setFormState((prevState) => ({ ...prevState, ko: selected.ko, imageUrl: selected.imageUrl }));
     navigation.goBack();
   };
 

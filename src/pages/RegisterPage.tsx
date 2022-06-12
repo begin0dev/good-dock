@@ -24,6 +24,7 @@ import { useSendApi } from "../hooks";
 import { useToast } from "../components/common/toast";
 import { formValidatorSchema } from "../components/register/state/form.validator";
 import Form from "../components/register/Form";
+import { postUserSubscribeApi, PostUserSubscribeParams } from "../services/subscribes";
 
 const PERIOD_ITEMS = [
   { label: "일", value: "day" },
@@ -48,7 +49,15 @@ function RegisterPage() {
 
   const { addToast } = useToast();
   const [isLoading, submit] = useSendApi(async () => {
-    addToast({ message: "test" });
+    if (!isValid) return;
+    console.log(formState);
+    try {
+      await postUserSubscribeApi(formState as PostUserSubscribeParams);
+      addToast({ message: "등록되었습니다." });
+    } catch (err) {
+      console.error(err);
+      addToast({ message: "등록에 실패하였습니다. 다시 시도해주세요" });
+    }
   });
 
   const onPressDate = (startDate: Date) => {
@@ -86,7 +95,7 @@ function RegisterPage() {
         <Form label="정기 결제명">
           <AppTextInput
             placeholder="정기 결제 중인 항목의 이름을 입력해주세요."
-            value={formState.name}
+            value={formState.ko}
             onPressIn={() => navigation.push("SearchListScreen")}
             showSoftInputOnFocus={false}
           />
