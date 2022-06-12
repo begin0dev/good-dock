@@ -6,7 +6,7 @@ export function generateID(prefix = "good-dock-id-") {
   return `${prefix}${(idCounter += 1)}`;
 }
 
-export default function useId(givenId?: string) {
+export function useId(givenId?: string) {
   const [id] = useState(givenId ?? generateID());
 
   return id;

@@ -1,5 +1,5 @@
-import EncryptedStorage from "react-native-encrypted-storage";
 import jwtDecode from "jwt-decode";
+import EncryptedStorage from "react-native-encrypted-storage";
 
 import { JWT } from "../types/base";
 
@@ -22,7 +22,7 @@ class TokenManager {
   async getAccessToken() {
     const access = await EncryptedStorage.getItem(this.ACCESS_TOKEN_KEY);
     if (!access) return null;
-    const { accessToken, exp } = JSON.parse(access) as { accessToken: string; exp: number };
+    const { accessToken, exp }: { accessToken: string; exp: number } = JSON.parse(access);
     if (exp < new Date().getTime()) return null;
     return accessToken;
   }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -21,6 +21,8 @@ import {
 } from "../components/common";
 import { registerFormState } from "../components/register/state/form";
 import Form from "../components/register/Form";
+import { useSendApi } from "../hooks";
+import { formValidatorSchema } from "../components/register/state/form.validator";
 
 const PERIOD_ITEMS = [
   { label: "일", value: "day" },
@@ -29,12 +31,20 @@ const PERIOD_ITEMS = [
   { label: "년", value: "year" },
 ];
 
+const RADIO_ITEMS: { label: string; value: "subscribe" | "fixed" }[] = [
+  { label: "구독", value: "subscribe" },
+  { label: "고정 생활비", value: "fixed" },
+];
+
 function RegisterPage() {
   const navigation = useNavigation<NavigationProps>();
   const { params } = useRoute<RouteProp<InitNavigation, "RegisterScreen">>();
 
   const [formState, setFormState] = useRecoilState(registerFormState);
   const [showCalendar, setShowCalendar] = useState(false);
+  const [isValid, setIsValid] = useState(false);
+
+  const [isLoading, submit] = useSendApi(async () => {});
 
   const onPressDate = (startDate: Date) => {
     setFormState((prevState) => ({ ...prevState, startDate }));
@@ -44,6 +54,13 @@ function RegisterPage() {
   const onPressPeriod = (unit: "day" | "week" | "month" | "year") => {
     setFormState((prevState) => ({ ...prevState, unit }));
   };
+
+  useEffect(() => {
+    formValidatorSchema
+      .validate(formState)
+      .then(() => setIsValid(true))
+      .catch(() => setIsValid(false));
+  }, [formState]);
 
   return (
     <>
@@ -57,19 +74,14 @@ function RegisterPage() {
         <Form label="카테고리 선택">
           <Radio
             defaultValue={params.type}
-            items={
-              [
-                { label: "구독", value: "subscribe" },
-                { label: "고정 생활비", value: "fixed" },
-              ] as { label: string; value: "subscribe" | "fixed" }[]
-            }
+            items={RADIO_ITEMS}
             onPress={(type) => setFormState((prevState) => ({ ...prevState, type }))}
           />
         </Form>
         <Form label="정기 결제명">
           <AppTextInput
             placeholder="정기 결제 중인 항목의 이름을 입력해주세요."
-            value={formState.name}
+            value={formState.ko}
             onPressIn={() => navigation.push("SearchListScreen")}
             showSoftInputOnFocus={false}
           />
@@ -119,10 +131,7 @@ function RegisterPage() {
             onChangeText={(memo) => setFormState((prevState) => ({ ...prevState, memo }))}
           />
         </Form>
-        <AppButton
-          onPress={() => {
-            console.log(formState);
-          }}>
+        <AppButton onPress={submit} disabled={isLoading || !isValid}>
           완료
         </AppButton>
       </SafeAreaView>

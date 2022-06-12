@@ -8,7 +8,7 @@ import {
 import AppNavigation from "./AppNavigation";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
-import useMount from "../hooks/useMount";
+import { useMount } from "../hooks";
 import TokenManager from "../helpers/token-manager";
 import { authState } from "../atoms/auth";
 import { themeColors } from "../styles/colors";

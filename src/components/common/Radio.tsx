@@ -4,7 +4,7 @@ import { StyleSheet, TouchableNativeFeedback, View } from "react-native";
 import CustomText from "./CustomText";
 import { themeColors } from "../../styles/colors";
 import { SIZE_MAPPER } from "../../helpers/utils";
-import useId from "../../hooks/useId";
+import { useId } from "../../hooks";
 
 interface Props<V> {
   size?: "small" | "medium" | "large";

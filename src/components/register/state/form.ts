@@ -1,26 +1,26 @@
 import { atom } from "recoil";
 
-interface RegisterFormState {
+export interface RegisterFormState {
   type: "subscribe" | "fixed";
-  name: string;
+  ko: string | undefined;
   imageUrl: string | undefined;
-  price: number | null;
-  startDate: Date | null;
-  period: number | null;
-  unit: "day" | "week" | "month" | "year" | null;
-  memo: string | null;
+  price: number | undefined;
+  startDate: Date | undefined;
+  period: number | undefined;
+  unit: "day" | "week" | "month" | "year" | undefined;
+  memo: string | undefined;
 }
 
 export const registerFormState = atom<RegisterFormState>({
   key: "registerFormState",
   default: {
     type: "subscribe",
-    name: "",
+    ko: undefined,
     imageUrl: undefined,
-    price: null,
-    startDate: null,
-    period: null,
-    unit: null,
-    memo: null,
+    price: undefined,
+    startDate: undefined,
+    period: undefined,
+    unit: undefined,
+    memo: undefined,
   },
 });

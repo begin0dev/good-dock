@@ -1,20 +1,14 @@
 import { last, flatten } from "lodash";
 import { useCallback, useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { useInfiniteQuery } from "react-query";
-import {
-  StyleSheet,
-  FlatList,
-  View,
-  NativeSyntheticEvent,
-  TextInputChangeEventData,
-} from "react-native";
+import { StyleSheet, FlatList, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { AppButton, AppTextInput, CustomText } from "../common";
 import { themeColors } from "../../styles/colors";
 import { getSubscribesApi } from "../../services/subscribes";
-import { useSearchInput } from "../../hooks/useSearchInput";
+import { useSearchInput } from "../../hooks";
 import SearchItem from "./SearchItem";
 import { registerFormState } from "./state/form";
 import { useNavigation } from "@react-navigation/native";
@@ -31,7 +25,7 @@ function SearchList() {
   const navigation = useNavigation<NavigationProps>();
   const [formState, setFormState] = useRecoilState(registerFormState);
   const [selected, setSelected] = useState<SelectItem | null>(
-    formState.name ? { ko: formState.name } : null,
+    formState.ko ? { ko: formState.ko } : null,
   );
   const { keyword, currentSearch, onChange } = useSearchInput();
   const { isLoading, data, hasNextPage, fetchNextPage } = useInfiniteQuery(
