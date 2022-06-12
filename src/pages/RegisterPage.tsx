@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useResetRecoilState } from "recoil";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
@@ -43,6 +43,7 @@ function RegisterPage() {
   const { params } = useRoute<RouteProp<InitNavigation, "RegisterScreen">>();
 
   const [formState, setFormState] = useRecoilState(registerFormState);
+  const resetFormState = useResetRecoilState(registerFormState);
 
   const [isValid, setIsValid] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
@@ -50,13 +51,13 @@ function RegisterPage() {
   const { addToast } = useToast();
   const [isLoading, submit] = useSendApi(async () => {
     if (!isValid) return;
-    console.log(formState);
     try {
       await postUserSubscribeApi(formState as PostUserSubscribeParams);
       addToast({ message: "등록되었습니다." });
+      resetFormState();
+      navigation.goBack();
     } catch (err) {
-      console.error(err);
-      addToast({ message: "등록에 실패하였습니다. 다시 시도해주세요" });
+      addToast({ message: `등록에 실패하였습니다. 다시 시도해주세요 (${err})` });
     }
   });
 

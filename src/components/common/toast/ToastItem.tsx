@@ -63,7 +63,7 @@ export default ToastItem;
 const styles = StyleSheet.create({
   toastItem: {
     paddingHorizontal: 20,
-    paddingVertical: 8,
+    paddingVertical: 12,
     marginHorizontal: 50,
     marginBottom: 12,
     borderRadius: 24,
