@@ -1,9 +1,10 @@
+import dayjs, { Dayjs } from "dayjs";
 import { useEffect, useState } from "react";
+import { useQueryClient } from "react-query";
 import { useRecoilState, useResetRecoilState } from "recoil";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import dayjs, { Dayjs } from "dayjs";
 
 import { NavigationProps } from "../navigations/types";
 import { InitNavigation } from "../navigations/InitNavigation";
@@ -20,14 +21,13 @@ import {
   Select,
 } from "../components/common";
 import { registerFormState } from "../components/register/state/form";
-import { useSendApi } from "../hooks";
+import { useMount, useSendApi } from "../hooks";
 import { useToast } from "../components/common/toast";
 import { formValidatorSchema } from "../components/register/state/form.validator";
-import Form from "../components/register/Form";
 import { postUserSubscribeApi, PostUserSubscribeParams } from "../services/subscribes";
+import Form from "../components/register/Form";
 
 const PERIOD_ITEMS = [
-  { label: "일", value: "day" },
   { label: "주", value: "week" },
   { label: "개월", value: "month" },
   { label: "년", value: "year" },
@@ -39,6 +39,7 @@ const RADIO_ITEMS: { label: string; value: "subscribe" | "fixed" }[] = [
 ];
 
 function RegisterPage() {
+  const queryClient = useQueryClient();
   const navigation = useNavigation<NavigationProps>();
   const { params } = useRoute<RouteProp<InitNavigation, "RegisterScreen">>();
 
@@ -53,6 +54,11 @@ function RegisterPage() {
     if (!isValid) return;
     try {
       await postUserSubscribeApi(formState as PostUserSubscribeParams);
+      await queryClient.invalidateQueries([
+        "getUserMonthSubscribesApi",
+        formState.type,
+        dayjs(formState.startDate).startOf("M").toString(),
+      ]);
       addToast({ message: "등록되었습니다." });
       resetFormState();
       navigation.goBack();
@@ -66,9 +72,13 @@ function RegisterPage() {
     setShowCalendar(false);
   };
 
-  const onPressPeriod = (unit: "day" | "week" | "month" | "year") => {
+  const onPressPeriod = (unit: "week" | "month" | "year") => {
     setFormState((prevState) => ({ ...prevState, unit }));
   };
+
+  useMount(() => {
+    setFormState({ type: params.type });
+  });
 
   useEffect(() => {
     formValidatorSchema

@@ -1,6 +1,8 @@
 import { StyleSheet } from "react-native";
 import { themeColors } from "../../styles/colors";
 
+const ITEM_SIZE = 40;
+
 export const styles = StyleSheet.create({
   cardHeaderWrapper: {
     flexDirection: "row",
@@ -21,12 +23,17 @@ export const styles = StyleSheet.create({
   listItem: {
     justifyContent: "center",
     alignItems: "center",
-    width: 40,
-    height: 40,
+    width: ITEM_SIZE,
+    height: ITEM_SIZE,
     borderRadius: 20,
     marginRight: 10,
     backgroundColor: themeColors.SECONDARY_BACKGROUND,
     overflow: "hidden",
+  },
+  itemImage: {
+    width: ITEM_SIZE,
+    height: ITEM_SIZE,
+    borderRadius: 20,
   },
   cardSummary: {
     flexDirection: "row",

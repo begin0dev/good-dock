@@ -32,8 +32,6 @@ function Calendar({ defaultDate, onPressDate }: Props) {
     if (defaultDate) setMonthDate(dayjs(defaultDate).startOf("M"));
   }, [defaultDate]);
 
-  console.log(getMonthDays(monthDate));
-
   return (
     <View style={styles.wrapper}>
       <View style={styles.header}>

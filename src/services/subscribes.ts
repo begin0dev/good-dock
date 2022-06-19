@@ -2,7 +2,6 @@ import { apiClient } from "./apiClient";
 import { BaseJsendResponse, InfinityParams } from "../types/base";
 import { Subscribe } from "../types/subsribe";
 import { UserSubscribe, UserSubscribeType } from "../types/userToSubscribe";
-import { Dayjs } from "dayjs";
 
 interface SubscribeParams extends InfinityParams {
   keyword?: string;
@@ -10,10 +9,10 @@ interface SubscribeParams extends InfinityParams {
 
 export interface GetUserMonthSubscribesApiParams {
   type: UserSubscribeType;
-  date: Dayjs | Date;
+  date: Date;
 }
 
-export interface PostUserSubscribeParams extends Omit<UserSubscribe, "endDate"> {}
+export interface PostUserSubscribeParams extends Omit<UserSubscribe, "_id" | "endDate"> {}
 
 export const getSubscribesApi = (searchParams: SubscribeParams) =>
   apiClient.get("subscribes/search", { searchParams }).json<BaseJsendResponse<Subscribe[]>>();

@@ -15,6 +15,7 @@ import { themeColors } from "../styles/colors";
 import { BackButton } from "../components/common";
 import SearchList from "../components/register/SearchList";
 import CloseButton from "../components/common/CloseButton";
+import { useMonthSubscribes } from "../hooks/queries/useMonthSubscribes";
 
 export type InitNavigation = {
   LoginScreen: undefined;

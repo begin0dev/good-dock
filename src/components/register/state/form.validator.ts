@@ -7,6 +7,6 @@ export const formValidatorSchema = yup.object({
   price: yup.number().min(0).required(),
   startDate: yup.date().required(),
   period: yup.number().required(),
-  unit: yup.mixed().oneOf(["day", "week", "month", "year"]).required(),
+  unit: yup.mixed().oneOf(["week", "month", "year"]).required(),
   memo: yup.string().nullable(),
 });

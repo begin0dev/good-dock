@@ -1,6 +1,6 @@
 import dayjs, { Dayjs } from "dayjs";
 
-export const getMonthDays = (start: Date | Dayjs | number) => {
+export const getMonthDays = (start: Dayjs | number) => {
   let prev = dayjs(start).startOf("w");
   let end = dayjs(start).endOf("M").endOf("w");
   let weekIndex: number = 0;
